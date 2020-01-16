@@ -29,7 +29,7 @@ char	*ft_read_line(int fd)
 		i = 0;
 		read(fd, buf, BUFFER_SIZE);
 		while (buf[i])
-			if (buf[i++] = '\n')
+			if (buf[i++] == '\n')
 				flag = 1;
 		ft_strrcat(&line, buf);
 	}
