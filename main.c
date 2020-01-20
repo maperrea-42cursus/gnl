@@ -34,13 +34,17 @@ int main(int argc, char **argv)
 	get_next_line(fd1, &line);
 	printf("> %s\n", line);
 	get_next_line(fd3, &line);
-	printf("empty file: > %s\n", line);
+	printf("> empty file: %s\n", line);
 	get_next_line(fd2, &line);
 	printf("> %s\n", line);
 	get_next_line(fd4, &line);
-	printf("newline only: > %s\n", line);
+	printf("> newline only: %s\n", line);
 	get_next_line(fd2, &line);
 	printf("> %s\n", line);
 	get_next_line(fd2, &line);
-	printf("EOF: > %s\n", line);
+	printf("> eof 2: %s\n", line);
+	get_next_line(fd1, &line);
+	printf("> eof 1: %s\n", line);
+	get_next_line(fd4, &line);
+	printf("> eof nl: %s\n", line);
 }

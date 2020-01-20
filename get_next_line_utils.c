@@ -91,13 +91,28 @@ int		ft_lstadd_back(t_list **list, int fd, char *str)
 	return (1);
 }
 
-t_list	*ft_find_fd(t_list *list, int fd)
+void	ft_remove_list_fd(t_list **list, int fd)
 {
-	while (list)
+	t_list	*next;
+
+	if ((*list)->content->fd == fd)
 	{
-		if (list->content->fd == fd)
-			return (list);
-		list = list->next;
+		next = (*list)->next;
+		free((*list)->content->str);
+		free((*list)->content);
+		free(*list);
+		list = &next;
 	}
-	return (NULL);
+	else
+	{
+		while((*list)->next && (*list)->next->content->fd != fd)
+			list = &((*list)->next);
+		if (!(*list)->next)
+			return ;
+		next = (*list)->next->next;
+		free((*list)->next->content->str);
+		free((*list)->next->content);
+		free((*list)->next);
+		(*list)->next = next;
+	}
 }
