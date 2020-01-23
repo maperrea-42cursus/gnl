@@ -6,7 +6,7 @@
 /*   By: maperrea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:26:05 by maperrea          #+#    #+#             */
-/*   Updated: 2020/01/22 13:56:51 by maperrea         ###   ########.fr       */
+/*   Updated: 2020/01/23 17:21:45 by maperrea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ char	**ft_minisplit(char *str, char **strs)
 	l[1] = 0;
 	while (str[++i])
 		str[i] == '\n' && j == 0 ? j++ : l[j]++;
-	if (!(strs[0] = malloc(l[0] + 1)) || !(strs[1] = malloc(l[1] + 1)))
-		return NULL;
+	if (!(strs[0] = malloc(l[0] + 1))
+			|| !(strs[1] = malloc(l[1] + 1)))
+		return (NULL);
 	i = -1;
 	while (str[++i] != '\n' && str[i])
 		strs[0][i] = str[i];
@@ -35,6 +36,7 @@ char	**ft_minisplit(char *str, char **strs)
 	while (str[i])
 		strs[1][j++] = str[i++];
 	strs[1][j] = 0;
+	free(str);
 	return (strs);
 }
 
@@ -54,6 +56,7 @@ char	*ft_strrcat(char **str1, char *str2)
 	while (str2[j])
 		(*str1)[i++] = str2[j++];
 	(*str1)[i] = 0;
+	free(str2);
 	return (*str1);
 }
 
@@ -75,25 +78,29 @@ void	ft_str_resize(char **str, size_t size)
 	*str = tmp;
 }
 
-int		ft_lstadd_back(t_list **list, int fd, char *str)
+void	ft_lstadd(t_list **file_list, int fd, char *str)
 {
-	t_list *new;
+	t_list *list;
 
-	if (!(new = malloc(sizeof(t_list))) ||
-			!(new->content = malloc(sizeof(t_file))))
-		return (0);
-	new->content->fd = fd;
-	new->content->str = str;
-	new->next = NULL;
-	if (!(*list))
-		(*list) = new;
-	else
+	if (!(list = ft_find_fd(*file_list, fd)))
 	{
-		while ((*list)->next)
-			list = &((*list)->next);
-		(*list)->next = new;
+		if (!(list = malloc(sizeof(t_list))) ||
+				!(list->content = malloc(sizeof(t_file))))
+			return ;
+		list->content->fd = fd;
+		list->content->str = str;
+		list->next = NULL;
+		if (!(*file_list))
+			(*file_list) = list;
+		else
+		{
+			while ((*file_list)->next)
+				file_list = &((*file_list)->next);
+			(*file_list)->next = list;
+		}
 	}
-	return (1);
+	else
+		list->content->str = str;
 }
 
 void	ft_remove_list_fd(t_list **list, int fd)
@@ -110,7 +117,7 @@ void	ft_remove_list_fd(t_list **list, int fd)
 	}
 	else
 	{
-		while((*list)->next && (*list)->next->content->fd != fd)
+		while ((*list)->next && (*list)->next->content->fd != fd)
 			list = &((*list)->next);
 		if (!(*list)->next)
 			return ;

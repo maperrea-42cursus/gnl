@@ -6,7 +6,7 @@
 /*   By: maperrea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:08:00 by maperrea          #+#    #+#             */
-/*   Updated: 2020/01/21 20:46:50 by maperrea         ###   ########.fr       */
+/*   Updated: 2020/01/23 17:02:07 by maperrea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,19 @@
 int main(int argc, char **argv)
 {
 	int fd1;
-	int fd2;
-	int fd3;
-	int fd4;
-	int ret;
+	int ret1;
 	char *line;
 
 	(void)argc;
 	line = NULL;
+	ret1 = 1;
 	fd1 = open(argv[1], O_RDONLY);
-	fd2 = open(argv[2], O_RDONLY);
-	fd3 = open("empty_file", O_RDONLY);
-	fd4 = open("new_line", O_RDONLY);
 	do {
-		ret = get_next_line(fd1, &line);
-		printf("%s\n", line);
-	} while (ret);
+		ret1 = get_next_line(fd1, &line);
+		printf("%s : %d\n", line, ret1);
+		free(line);
+	} while (ret1);
+	CHECK
 /*	get_next_line(fd1, &line);
 	printf("> %s\n", line);
 	get_next_line(fd2, &line);

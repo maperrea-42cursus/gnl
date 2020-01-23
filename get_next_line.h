@@ -6,7 +6,7 @@
 /*   By: maperrea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:40 by maperrea          #+#    #+#             */
-/*   Updated: 2020/01/22 13:56:53 by maperrea         ###   ########.fr       */
+/*   Updated: 2020/01/23 17:38:18 by maperrea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,17 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
+# ifdef CHECK_LEAKS
+#  define CHECK print_leaks();
+#  include "leak_detector.h"
+# else
+#  define CHECK
+# endif
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32
 # endif
+
 typedef struct	s_list
 {
 	struct s_file	*content;
@@ -38,13 +46,13 @@ typedef struct	s_file
 
 t_list			*ft_find_fd(t_list *list, int fd);
 int				ft_find_nl(char *str);
-char			*ft_read_line(int fd, int *flag);
+char			*ft_read_line(int fd, int *flag, char *line);
 int				get_next_line(int fd, char **line);
 
 char			**ft_minisplit(char *str, char **strs);
 char			*ft_strrcat(char **str1, char *str2);
 void			ft_str_resize(char **str, size_t size);
-int				ft_lstadd_back(t_list **list, int fd, char *str);
+void			ft_lstadd(t_list **list, int fd, char *str);
 void			ft_remove_list_fd(t_list **list, int fd);
 
 #endif
