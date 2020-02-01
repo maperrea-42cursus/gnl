@@ -6,7 +6,7 @@
 /*   By: maperrea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:25:57 by maperrea          #+#    #+#             */
-/*   Updated: 2020/01/23 17:39:16 by maperrea         ###   ########.fr       */
+/*   Updated: 2020/02/01 01:17:56 by maperrea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*ft_read_line(int fd, int *flag, char *line)
 		buf[*flag] = 0;
 		ft_strrcat(&line, buf);
 	}
+	*flag = *line && ft_find_nl(line) ? 1 : *flag;
 	return (line);
 }
 
@@ -68,7 +69,6 @@ int		get_next_line(int fd, char **line)
 										file->content->str : NULL), tmp);
 	ft_lstadd(&file_list, fd, tmp[1]);
 	*line = tmp[0];
-	flag = **line || *(tmp[1]) ? 1 : flag;
 	if (!tmp[1] || !*(tmp[1]))
 		ft_remove_list_fd(&file_list, fd);
 	return (flag);

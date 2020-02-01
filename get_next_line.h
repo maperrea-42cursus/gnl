@@ -6,7 +6,7 @@
 /*   By: maperrea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:38:40 by maperrea          #+#    #+#             */
-/*   Updated: 2020/01/23 17:38:18 by maperrea         ###   ########.fr       */
+/*   Updated: 2020/01/28 12:14:09 by maperrea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
-# ifdef CHECK_LEAKS
-#  define CHECK print_leaks();
-#  include "leak_detector.h"
-# else
-#  define CHECK
-# endif
+# include "leak_detector.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32
